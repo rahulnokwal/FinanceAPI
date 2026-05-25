@@ -1,8 +1,7 @@
 import connectDB from "./db/index.js";
 import { PORT } from "./constant.js";
-import express from "express";
+import app from "./app.js";
 
-const app = express();
 connectDB()
   .then(() => {
     const portUsed = `${PORT}` || 3000;
