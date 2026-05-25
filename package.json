@@ -1,0 +1,25 @@
+{
+  "name": "financeapi",
+  "version": "1.0.0",
+  "description": "a finance tracking backend",
+  "keywords": [
+    "backend",
+    "node",
+    "finance",
+    "expense"
+  ],
+  "license": "ISC",
+  "author": "Rahul Nokwal",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14",
+    "prettier": "^3.8.3"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
