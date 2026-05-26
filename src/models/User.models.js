@@ -29,12 +29,11 @@ const userSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
-export const User = mongoose.model("User", userSchema);
 
-userSchema.pre("save", async function () {
-  if (!this.Modified("password")) return next();
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next;
   this.password = await bcrypt.hash(this.password, 8);
-  next();
+  next;
 });
 
 userSchema.method.isPasswordCorrect = async function (password) {
@@ -61,3 +60,5 @@ userSchema.method.generateAccessToken = () => {
     { expiresIn: process.env.ACCESS_TOKEN_EXPIRY }
   );
 };
+
+export const User = mongoose.model("User", userSchema);
