@@ -47,16 +47,16 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Email & Password are required");
 
   const user = await User.findOne({ email });
-  if (!user) throw new ApiError(400, "Email not found!");
+  if (!user) throw new ApiError(400, "Invalid email or password");
   const validatePassword = await user.isPasswordCorrect(password);
-  if (!validatePassword) throw new ApiError(400, "Invalid credentials");
+  if (!validatePassword) throw new ApiError(400, "Invalid email or password");
 
   const { refreshToken, accessToken } = await generateTokens(user);
 
   const userData = user.toObject();
   delete userData.password;
   delete userData.refreshToken;
-  console.log(userData);
+
   res
     .status(200)
     .cookie("refreshToken", refreshToken, options)
@@ -64,9 +64,24 @@ const loginUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, "user logged in successfully", userData));
 });
 
+const logoutUser = asyncHandler(async (req, res) => {
+  const user = User.findByIdAndUpdate(
+    req.user._Id,
+    { $unset: { refreshToken: 1 } },
+    { new: true }
+  );
+
+  return res
+    .status(200)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
+    .json(new ApiResponse(200, "user logout successfully"));
+});
+
 const options = {
   secure: true,
   httpOnly: true,
+  sameSite: "strict",
 };
 
 const generateTokens = async (user) => {
@@ -76,4 +91,4 @@ const generateTokens = async (user) => {
   await user.save({ validateBeforeSave: false });
   return { refreshToken, accessToken };
 };
-export { registerUser, loginUser };
+export { registerUser, loginUser, logoutUser };
