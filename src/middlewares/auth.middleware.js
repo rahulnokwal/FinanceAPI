@@ -14,7 +14,7 @@ const verifyAuth = asyncHandler(async (req, res, next) => {
       process.env.ACCESS_TOKEN_SECRET
     );
 
-    const user = User.findById(decodeToken?._id).select(
+    const user = await User.findById(decodeToken?._id).select(
       "-password -refreshToken"
     );
 

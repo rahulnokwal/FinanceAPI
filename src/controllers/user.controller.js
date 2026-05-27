@@ -129,4 +129,63 @@ const refreshaccessToken = asyncHandler(async (req, res) => {
     );
 });
 
+const getCurrentUser = asyncHandler(async (req, res) => {
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "user fetched successfully", req.user));
+});
+
+const updateProfile = asyncHandler(async (req, res) => {
+  const profilePath = req.file?.path;
+  if (!profilePath) throw new ApiError(400, "Profile not found!");
+  const upload = await uploadProfile(profilePath);
+  if (!upload) throw new ApiError(500, "Error uploading profile!");
+
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      $set: { profile: upload.url },
+    },
+    { new: true }
+  ).select("-password -refreshToken");
+  if (!user) throw new ApiError(500, "Something went wrong updating profile");
+  return res
+    .status(201)
+    .json(new ApiResponse(200, "Profile updated successfully", user));
+});
+
+const updateUserInfo = asyncHandler(async (req, res) => {
+  const { fullName, email } = req.body;
+  if (!fullName && !email) throw new ApiError(400, "All fileds are required");
+
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    { $set: { fullName, email } },
+    { new: true }
+  ).select("-password -refreshToken");
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, "User data changed successfully", user));
+});
+
+const changePassword = asyncHandler(async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+  if (!oldPassword || !newPassword)
+    throw new ApiError(400, "All fields are required");
+
+  const user = await User.findById(req.user._id);
+  const isPasswordValid = await user.isPasswordCorrect(oldPassword);
+  if (!isPasswordValid) throw new ApiError(400, "Invalid password");
+  user.password = newPassword;
+  await user.save({ validateBeforeSave: false });
+  res
+    .status(200)
+    .json(new ApiResponse(200, "Password changed successfully", {}));
+});
+
+const forgetPassword = asyncHandler(async (req, res) => {
+  // will add later
+});
+
 export { registerUser, loginUser, logoutUser, refreshaccessToken };
