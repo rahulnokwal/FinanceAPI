@@ -188,4 +188,14 @@ const forgetPassword = asyncHandler(async (req, res) => {
   // will add later
 });
 
-export { registerUser, loginUser, logoutUser, refreshaccessToken };
+export {
+  registerUser,
+  loginUser,
+  logoutUser,
+  refreshaccessToken,
+  getCurrentUser,
+  updateProfile,
+  updateUserInfo,
+  changePassword,
+  forgetPassword,
+};

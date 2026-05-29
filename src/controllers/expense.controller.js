@@ -117,4 +117,10 @@ const getExpenseById = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, "Expense fetched successfully", expense));
 });
 
-export { createExpense };
+export {
+  createExpense,
+  updateExpense,
+  deleteExpense,
+  getExpense,
+  getExpenseById,
+};

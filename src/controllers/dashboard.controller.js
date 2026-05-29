@@ -111,3 +111,5 @@ const getCategoryChartData = asyncHandler(async (req, res) => {
       )
     );
 });
+
+export { getExpenseStats, getCategoryChartData };
