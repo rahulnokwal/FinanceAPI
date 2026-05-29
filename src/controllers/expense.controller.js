@@ -4,7 +4,6 @@ import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import { User } from "../models/user.models.js";
 import { Expense } from "../models/expense.models.js";
-import { TheaterIcon } from "lucide-react";
 
 const createExpense = asyncHandler(async (req, res) => {
   const { amount, category, description } = req.body;
