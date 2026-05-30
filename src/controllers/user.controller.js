@@ -156,7 +156,7 @@ const updateProfile = asyncHandler(async (req, res) => {
 
 const updateUserInfo = asyncHandler(async (req, res) => {
   const { fullName, email } = req.body;
-  if (!fullName && !email) throw new ApiError(400, "All fileds are required");
+  if (!fullName && !email) throw new ApiError(400, "field is required");
 
   const user = await User.findByIdAndUpdate(
     req.user._id,
@@ -178,7 +178,7 @@ const changePassword = asyncHandler(async (req, res) => {
   const isPasswordValid = await user.isPasswordCorrect(oldPassword);
   if (!isPasswordValid) throw new ApiError(400, "Invalid password");
   user.password = newPassword;
-  await user.save({ validateBeforeSave: false });
+  await user.save({});
   res
     .status(200)
     .json(new ApiResponse(200, "Password changed successfully", {}));

@@ -17,7 +17,7 @@ import dashboardRouter from "./routes/dashboard.routes.js";
 import userRouter from "./routes/user.routes.js";
 import expenseRouter from "./routes/expense.routes.js";
 
-app.use("/api/v1/users", dashboardRouter);
+app.use("/api/v1/dashboard", dashboardRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/expense", expenseRouter);
 

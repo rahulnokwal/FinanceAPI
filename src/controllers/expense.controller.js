@@ -70,21 +70,20 @@ const deleteExpense = asyncHandler(async (req, res) => {
 
 const getExpense = asyncHandler(async (req, res) => {
   const page = parseInt(req.query.page) || 1;
-  const limit = parent(req.query.limit) || 10;
+  const limit = parseInt(req.query.limit) || 10;
   const skip = (page - 1) * limit;
 
   const dataQuery = { user: req.user._id };
   if (req.query.category) dataQuery.category = req.query.category;
-  if (req.query.id) dataQuery._id = req.query.id;
 
-  const expense = await Expense.find({ dataQuery })
+  const expense = await Expense.find(dataQuery)
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit);
-
+  console.log(expense);
   const totalDocument = await Expense.countDocuments(expense);
   const totalPages = Math.ceil(totalDocument / limit);
-
+  console.log(expense);
   const data = {
     expense,
     pagination: {

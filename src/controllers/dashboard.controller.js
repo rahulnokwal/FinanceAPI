@@ -95,7 +95,7 @@ const getCategoryChartData = asyncHandler(async (req, res) => {
     },
     {
       $group: {
-        _id: category,
+        _id: "$category",
         spentOnCategory: { $sum: "$amount" },
       },
     },
@@ -106,7 +106,7 @@ const getCategoryChartData = asyncHandler(async (req, res) => {
     .json(
       new ApiResponse(
         200,
-        "category wisr data fetched successfully",
+        "category wise data fetched successfully",
         chartStats
       )
     );
