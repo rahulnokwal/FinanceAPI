@@ -81,7 +81,7 @@ This backend foundation is built to scale. The upcoming features planned for thi
    ```
 
 3. Create a .env file in the root directory and add your variables:
-
+    ```
     MONGODB_URL=mongodb+srv://user:<db_password>@cluster0.lvzmnkm.mongodb.net
     CORS_ORIGIN=*
     ACCESS_TOKEN_SECRET=YOUR_TOKEN_SECRET
@@ -91,8 +91,8 @@ This backend foundation is built to scale. The upcoming features planned for thi
     CLOUDINARY_CLOUDNAME=YOUR_CLOUDINARY_CONFIG
     CLOUDINARY_API_KEY=YOUR_CLOUDINARY_CONFIG
     CLOUDINARY_API_SECRET=YOUR_CLOUDINARY_CONFIG
-
-2. Start the server:
+    ```
+4. Start the server:
    ```bash
    npm run dev
    ```
